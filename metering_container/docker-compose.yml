@@ -1,0 +1,18 @@
+
+services:
+  node-red:
+    container_name: node-red_container
+    image: python-opencv-nodered
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "1880:1880"
+    volumes:
+      - ../data_readings:/tmp
+    environment:
+      - DISPLAY=host.docker.internal:0 
+    restart: always
+
+volumes:
+  data_readings:

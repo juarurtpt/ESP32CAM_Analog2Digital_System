@@ -1,0 +1,600 @@
+[
+    {
+        "id": "19240563960c5312",
+        "type": "tab",
+        "label": "Main flow",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "0b1061c2d8176e93",
+        "type": "exec",
+        "z": "19240563960c5312",
+        "command": "python scripts/Current_CAM.py",
+        "addpay": "",
+        "append": "",
+        "useSpawn": "false",
+        "timer": "",
+        "winHide": false,
+        "oldrc": false,
+        "name": "exec Current_CAM.py",
+        "x": 540,
+        "y": 260,
+        "wires": [
+            [
+                "861441c3a1045d86",
+                "f7718f490c550b80",
+                "4f92be316c26933f"
+            ],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "dd55bf5300046bef",
+        "type": "inject",
+        "z": "19240563960c5312",
+        "d": true,
+        "name": "Timestamp 30s",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "30",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "25",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 300,
+        "y": 260,
+        "wires": [
+            [
+                "0b1061c2d8176e93"
+            ]
+        ]
+    },
+    {
+        "id": "861441c3a1045d86",
+        "type": "debug",
+        "z": "19240563960c5312",
+        "name": "Output script OK?",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 590,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "f7718f490c550b80",
+        "type": "function",
+        "z": "19240563960c5312",
+        "name": "Float extraction",
+        "func": "// Extraer el número de la cadena de texto\nvar stringValue = msg.payload; // La cadena de texto recibida del script\nvar floatValue = parseFloat(stringValue.match(/\\d+\\.\\d+/)[0]); // Extraer el número como un valor flotante\n\n// Crear el mensaje de salida con el valor extraído\nmsg.payload = floatValue;\n\n// Devolver el mensaje modificado\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 820,
+        "y": 160,
+        "wires": [
+            [
+                "7d35a03a4fa92d2c",
+                "47ef73ca019eb814",
+                "7cd2dacd6a57a0dd"
+            ]
+        ]
+    },
+    {
+        "id": "7cd2dacd6a57a0dd",
+        "type": "ui_gauge",
+        "z": "19240563960c5312",
+        "name": "",
+        "group": "c0a4d971ba85092e",
+        "order": 10,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Current gauge",
+        "label": "mA",
+        "format": "{{value}}",
+        "min": 0,
+        "max": 10,
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "2",
+        "seg2": "6",
+        "diff": false,
+        "className": "",
+        "x": 1320,
+        "y": 100,
+        "wires": [],
+        "inputLabels": [
+            "msg.payload.floatValue"
+        ]
+    },
+    {
+        "id": "7d35a03a4fa92d2c",
+        "type": "debug",
+        "z": "19240563960c5312",
+        "name": "Number OK?",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 950,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "47ef73ca019eb814",
+        "type": "ui_chart",
+        "z": "19240563960c5312",
+        "name": "",
+        "group": "731dbe744ab02260",
+        "order": 5,
+        "width": 0,
+        "height": 0,
+        "label": "Data Timeline",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "auto",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": true,
+        "ymin": "0",
+        "ymax": "10",
+        "removeOlder": "1",
+        "removeOlderPoints": "",
+        "removeOlderUnit": "60",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 1320,
+        "y": 240,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "c914aafdcfc2d74f",
+        "type": "exec",
+        "z": "19240563960c5312",
+        "command": "python scripts/Temperature_CAM.py",
+        "addpay": "",
+        "append": "",
+        "useSpawn": "false",
+        "timer": "",
+        "winHide": false,
+        "oldrc": false,
+        "name": "exec Temperature_CAM.py",
+        "x": 540,
+        "y": 700,
+        "wires": [
+            [
+                "f1daffa4ca8c34d4",
+                "2196763c2f5ce1f5",
+                "5fb14aa3048815c6"
+            ],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "24588feaedf32a10",
+        "type": "inject",
+        "z": "19240563960c5312",
+        "d": true,
+        "name": "Timestamp 45s",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "45",
+        "crontab": "",
+        "once": false,
+        "onceDelay": "60",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 300,
+        "y": 700,
+        "wires": [
+            [
+                "c914aafdcfc2d74f"
+            ]
+        ]
+    },
+    {
+        "id": "f1daffa4ca8c34d4",
+        "type": "debug",
+        "z": "19240563960c5312",
+        "name": "Output script OK?",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 590,
+        "y": 840,
+        "wires": []
+    },
+    {
+        "id": "2196763c2f5ce1f5",
+        "type": "function",
+        "z": "19240563960c5312",
+        "name": "Integer extraction",
+        "func": "// Extraer el número entero de la cadena de texto\nvar stringValue = msg.payload; // La cadena de texto recibida del script\nvar integerValue = parseInt(stringValue.match(/\\d+/)[0]); // Extraer el número como un valor entero\n\n// Crear el mensaje de salida con el valor extraído\nmsg.payload = integerValue;\n\n// Devolver el mensaje modificado\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 850,
+        "y": 800,
+        "wires": [
+            [
+                "be79f0481056a83a",
+                "720818ad61e1168b",
+                "0b7a5ee2be2e33ae"
+            ]
+        ]
+    },
+    {
+        "id": "be79f0481056a83a",
+        "type": "ui_gauge",
+        "z": "19240563960c5312",
+        "name": "",
+        "group": "c0a4d971ba85092e",
+        "order": 10,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Temperature gauge",
+        "label": "Cº",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "500",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "200",
+        "seg2": "400",
+        "diff": false,
+        "className": "",
+        "x": 1330,
+        "y": 720,
+        "wires": []
+    },
+    {
+        "id": "720818ad61e1168b",
+        "type": "debug",
+        "z": "19240563960c5312",
+        "name": "Number OK?",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 990,
+        "y": 880,
+        "wires": []
+    },
+    {
+        "id": "0b7a5ee2be2e33ae",
+        "type": "ui_chart",
+        "z": "19240563960c5312",
+        "name": "",
+        "group": "731dbe744ab02260",
+        "order": 5,
+        "width": 0,
+        "height": 0,
+        "label": "Data Timeline",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "auto",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": true,
+        "ymin": "0",
+        "ymax": "600",
+        "removeOlder": "1",
+        "removeOlderPoints": "",
+        "removeOlderUnit": "60",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 1320,
+        "y": 880,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "9baaa5ba3b72b3d6",
+        "type": "csv",
+        "z": "19240563960c5312",
+        "name": ".csv file format",
+        "sep": ";",
+        "hdrin": "",
+        "hdrout": "once",
+        "multi": "one",
+        "ret": "\\r\\n",
+        "temp": "Time, Current (mA), Temperature (C)",
+        "skip": "0",
+        "strings": true,
+        "include_empty_strings": "",
+        "include_null_values": "",
+        "x": 1180,
+        "y": 480,
+        "wires": [
+            [
+                "56aeec4377b27e0b"
+            ]
+        ]
+    },
+    {
+        "id": "56aeec4377b27e0b",
+        "type": "file",
+        "z": "19240563960c5312",
+        "name": "data.csv export",
+        "filename": "/tmp/data.csv",
+        "filenameType": "str",
+        "appendNewline": false,
+        "createDir": true,
+        "overwriteFile": "false",
+        "encoding": "utf8",
+        "x": 1400,
+        "y": 480,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "cb4373f3ab5729d5",
+        "type": "inject",
+        "z": "19240563960c5312",
+        "d": true,
+        "name": "[test] Output string Current_CAM.py",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "60",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "Corriente asociada: 6.7 mA.",
+        "payloadType": "str",
+        "x": 510,
+        "y": 340,
+        "wires": [
+            [
+                "4f92be316c26933f",
+                "f7718f490c550b80"
+            ]
+        ]
+    },
+    {
+        "id": "9b255a64c4acbad8",
+        "type": "debug",
+        "z": "19240563960c5312",
+        "name": "mA data OK?",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 970,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "4f92be316c26933f",
+        "type": "function",
+        "z": "19240563960c5312",
+        "name": "mA data for CSV",
+        "func": "// Extraer el número de la cadena de texto\nvar stringValue = msg.payload; // La cadena de texto recibida del script\nvar floatValue = parseFloat(stringValue.match(/\\d+\\.\\d+/)[0]); // Extraer el número como un valor flotante\n\n// Creamos variable donde guardamos la fecha y la hora del instante de recoleccion\nvar time = new Date().toLocaleString();\n\n// Crear el mensaje de salida con el valor extraído\n// msg.payload = numberValue;\nmsg.payload = { \"Time\": time, \"Current (mA)\": floatValue };\n\n// Devolver el mensaje modificado\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 830,
+        "y": 360,
+        "wires": [
+            [
+                "9baaa5ba3b72b3d6",
+                "9b255a64c4acbad8"
+            ]
+        ]
+    },
+    {
+        "id": "df25775587ed1601",
+        "type": "inject",
+        "z": "19240563960c5312",
+        "d": true,
+        "name": "[test] Output string Temperature_CAM.py",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "60",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "Temperatura asociada: 450 grados Celsius.",
+        "payloadType": "str",
+        "x": 500,
+        "y": 620,
+        "wires": [
+            [
+                "5fb14aa3048815c6",
+                "2196763c2f5ce1f5"
+            ]
+        ]
+    },
+    {
+        "id": "5fb14aa3048815c6",
+        "type": "function",
+        "z": "19240563960c5312",
+        "name": "Cº data for CSV",
+        "func": "// Extraer el número de la cadena de texto\nvar stringValue = msg.payload; // La cadena de texto recibida del script\nvar integerValue = parseInt(stringValue.match(/\\d+/)[0]); // Extraer el número como un valor entero\n\n// Creamos variable donde guardamos la fecha y la hora del instante de recoleccion\nvar time = new Date().toLocaleString();\n\n// Crear el mensaje de salida con el valor extraído\n// msg.payload = numberValue;\nmsg.payload = { \"Time\": time, \"Temperature (C)\": integerValue };\n\n// Devolver el mensaje modificado\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 840,
+        "y": 600,
+        "wires": [
+            [
+                "87c42e9a78e0c7c8",
+                "9baaa5ba3b72b3d6"
+            ]
+        ]
+    },
+    {
+        "id": "87c42e9a78e0c7c8",
+        "type": "debug",
+        "z": "19240563960c5312",
+        "name": "Cº data OK?",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 970,
+        "y": 680,
+        "wires": []
+    },
+    {
+        "id": "3bf7aa989791201c",
+        "type": "inject",
+        "z": "19240563960c5312",
+        "d": true,
+        "name": "Timestamp 1 min",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "60",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "25",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 210,
+        "y": 480,
+        "wires": [
+            [
+                "0b1061c2d8176e93",
+                "c914aafdcfc2d74f"
+            ]
+        ]
+    },
+    {
+        "id": "c0a4d971ba85092e",
+        "type": "ui_group",
+        "name": "MEDIDORES",
+        "tab": "6dd81012af2a02a6",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "731dbe744ab02260",
+        "type": "ui_group",
+        "name": "MONITORING",
+        "tab": "6dd81012af2a02a6",
+        "order": 2,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "6dd81012af2a02a6",
+        "type": "ui_tab",
+        "name": "MÁQUINA #1",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    }
+]
